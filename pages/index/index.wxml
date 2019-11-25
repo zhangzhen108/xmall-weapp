@@ -1,0 +1,48 @@
+<!--index.wxml-->
+<view>
+  <!-- 搜索框 -->
+  <view class="search-bar">
+    <view class="search" bindtap="toSearch">
+      <image class="search-logo" src="/assets/search.png" mode="aspectFit"></image>
+      搜索喜欢的商品
+    </view>
+  </view>
+
+  <view wx:for="{{sections}}" wx:key="{{item.id}}">
+
+    <!-- 轮播图 -->
+    <view class="banner-wrap">
+      <swiper class="banner" indicator-dots="true" indicator-color="#e0e0e0" indicator-active-color="#fff" autoplay="true" interval="3000" duration="1000">
+        <swiper-item wx:for="{{bannerList}}" wx:for-item="item" wx:key="{{item.id}}">
+          <image src="{{item.picUrl}}" background-size="cover" mode="aspectFit" data-value="{{item}}" bindtap="handleClick"></image>
+        </swiper-item>
+      </swiper>
+    </view>
+
+    <!-- 快捷频道图标 -->
+    <view class="menu">
+      <view class="item" wx:for="{{menuList}}" wx:for-item="item" wx:key="{{item.id}}" data-value="{{item}}" bindtap="handleClick">
+        <image src="{{item.picUrl}}" background-size="cover" data-value="{{item}}"></image>
+        <text>{{item.title}}</text>
+      </view>
+    </view>
+
+
+    <!-- 大图无边框板块 -->
+    <view class="section pick">
+      <view class="h" data-value="" hover-class="active" bindtap="clickHeader">
+        <text class="txt">最新商品</text>
+        <image class="arrow" src="/assets/rightArrow.png"></image>
+      </view>
+      <view class="pick-wrap">
+        <view class="item" wx:for="{{productList}}" wx:for-item="item" data-value="{{item}}" bindtap="handleClick">
+          <product-big data="{{item}}" border="false"></product-big>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="more">
+    <text class="title">—— 更多内容,敬请期待 ——</text>
+  </view>
+</view>

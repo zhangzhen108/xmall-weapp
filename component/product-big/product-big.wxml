@@ -1,0 +1,8 @@
+<!--component/product-big/product-big.wxml-->
+<view class="product-big">
+  <image class="{{border=='true' ? 'img' : 'img-noborder'}}" src="{{data.imgUrl}}" background-size="cover" mode="aspectFit" lazy-load="true"></image>
+  <van-tag round color="#ffe7e5" text-color="#cc3e39" class="tag">淘宝</van-tag>
+  <text class="name">{{data.name}}</text>
+  <text class="description">简介</text>
+  <text class="price">￥{{data.price}}</text>
+</view>
