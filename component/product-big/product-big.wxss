@@ -18,7 +18,6 @@
 
 .product-big .name {
   display: block;
-  padding: 5rpx 10rpx 5rpx 20rpx;
   overflow: hidden;
   font-size: 24rpx;
   color: #555;
@@ -26,23 +25,27 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-
+.product-big .yhq{
+  width: 100%
+}
 .product-big .description {
-  padding: 0rpx 10rpx 5rpx 20rpx;
-  display: block;
   font-size: 20rpx;
-  color: #7f7f7f;
+  color: #f0f0f0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHAAAAAgCAYAAADKbvy8AAACRklEQVRoQ+2bO2sUURiG3zdzWVGi0SqrzuZSyKSxVJAIXhorbf0BWmoUC2OhIIIg2AQrL4X+A60DQRTsBXEmhQZ3NRosXEzE7M5kPplNNriJie35OGeahZnmeZ93zu7OmXOItWM2Cs8XkCskj3bPuU/TDMgyBO9E8Cz+nD0kkLFETKLgPslrpuE6nq0NiMh03MjOMI28s6D3wsnSaKCYZBoFr0GOa8S3nVkgC0yi4BfJnbbL0JqfaS0UrfCOG3AFKr8LXIGuQOUGlOO7Eai9wCQKXoI4THCv8iz24Qs+dGZi5gYwsNwf3AJwiaRvnwk9iUUkB/CgkmdTo1/xqVNg90j2+8focwZgRU8ky0hXitPxl3ymm7qnwNV50fAuiRuWaVESV57E9ezi37CbCnw/hGqfhPNKEtmF2WqPxguY27bA8mJaC5oA99hlx/S0shjXs90bKTeNwLUCfwLsNz2STXwC+TFWz/b9t8BkEMMMw55hapMok7NWfrerI9/xbduv0LQWPAZ4weQgFrPdi+vtyS0LTA/4J+H1rf9FtViUodGlJbmcGpvP3/Q8RnysYqjlB5cJTID0DKV3WKUBkRUBpnYsZndGmmiWc6Hl792ws6PNgDRF8NZNZmvrbQOvK9AVqNyAcnw3Al2Byg0oxy+XFS6R3KU8h7X45cLeVyCPW2tAc3BBo1xafw70nmvOYS17UVzvvI1II/8mwNsg//l2wlpBBgdf39zSZZw9GBwpiKsgTxAYNJjdYrTV7WUEnh5qZI/K7WV/AP3KqhX31zLhAAAAAElFTkSuQmCC')
 }
 
 .product-big .price {
-  display: block;
-  padding: 0rpx 10rpx 10rpx 20rpx;
   font-size: 24rpx;
   color: #d44d44;
   font-weight: 700;
+}
+.product-big .originalPrice {
+  text-decoration:line-through;
+  font-size: 24rpx;
+  color: #7f7f7f
 }
 
 .product-big .tag {

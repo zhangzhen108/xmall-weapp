@@ -6,6 +6,7 @@ const app = getApp()
 
 Page({
   data: {
+    channel:'',
     page: 1,
     pageSize: 20, //根据后台每页的数据设定
     hasMoreData: '', //是否有更多数据文字
@@ -37,58 +38,67 @@ Page({
     }],
     menuList: [{
       id: 1,
-      title: "淘宝",
-      code: "product-tb",
-      picUrl: "../../image/tb.png"
+      relateId: 0,
+      title: "IPhone XS",
+      type: 0,
+      picUrl: "https://resource.smartisan.com/resource/5224f868cca31a8b913411ff9d69dcaf.png"
     },
     {
       id: 2,
-      title: "京东",
-      code: "product-jd",
-      picUrl: "../../image/jd.png"
+      relateId: 0,
+      title: "购买空净",
+      type: 0,
+      picUrl: "https://resource.smartisan.com/resource/e98cfb0a63e8b8c80e5b87ca66bda64c.png"
     },
     {
       id: 3,
-      title: "拼多多",
-      code: "product-pdd",
-      picUrl: "../../image/pdd.png"
+      relateId: 0,
+      title: "新品配件",
+      type: 0,
+      picUrl: "https://i.loli.net/2019/06/23/5d0f7e938c57070713.png"
     },
     {
       id: 4,
-      title: "蘑菇街",
-      code: "product-mgj",
-      picUrl: "../../image/mgj.png"
+      relateId: 0,
+      title: "服装",
+      type: 0,
+      picUrl: "https://resource.smartisan.com/resource/75892aebb63f998fa9b37e9a18984a98.png"
     },
     {
       id: 5,
+      relateId: 0,
       title: "更多",
+      type: 0,
       picUrl: "https://i.loli.net/2019/06/23/5d0f7e938cbee56873.png"
     }
     ]
   },
-  onLoad: function () {
+  onLoad: function (options) {
+    var that=this;
+    if(options!=null){
+      var channel = JSON.parse(options.channel);
+      wx.setNavigationBarTitle({
+        title: channel.title,
+      })
+      that.setData({
+        channel: channel
+      })
+    }
     this.queryProductList();
    },
   toSearch: function () {
+    var channel = JSON.stringify(channel)
     wx.navigateTo({
-      url: '/pages/search/search'
+      url: '/pages/search/search?channel=' + channel
     });
   },
   handleClick: function (e) {
     let data = e.currentTarget.dataset.value;
-    var channel = JSON.stringify(data)
+    var product = JSON.stringify(data)
       // 商品
       wx.navigateTo({
-        url: '/pages/channel/channel?channel=' + channel
+        url: '/pages/product/product?product=' + product
       });
-  },
-  handleClickProduct: function (e) {
-    let data = e.currentTarget.dataset.value;
-    var product = JSON.stringify(data)
-    // 商品
-    wx.navigateTo({
-      url: '/pages/product/product?product=' + product
-    });
   },
   clickHeader: function (e) {
     let data = e.currentTarget.dataset.value;
@@ -96,23 +106,23 @@ Page({
       url: '/pages/promotion/promotion?id=' + data.relateId
     });
   },
-  queryProductList: function (e) {
+  queryProductList: function(e) {
     //调用接口
-    api.get(queryProductList, {
-      code: "product-pdd",
-      size: 20,
+    api.get(queryProductList,{
+      code:this.data.channel.code,
+      size:20,
       current: this.data.page,
       keyword: '衣服'
     }).then(res => {
       //成功时回调函数
       var that = this;
       console.log(res);
-      if (res.data.length < that.data.pageSize) {
+      if (res.data.length < that.data.pageSize){
         that.setData({
           productList: that.data.productList.concat(res.data),
           hasMoreData: false
         })
-      } else {
+      }else{
         that.setData({
           productList: that.data.productList.concat(res.data),
           hasMoreData: true,
@@ -131,7 +141,7 @@ Page({
     console.log(this.data.hasMoreData);
     if (this.data.hasMoreData) {
       this.queryProductList()
-    }
+    } 
   },
   onPullDownRefresh: function () {
     wx.showNavigationBarLoading()

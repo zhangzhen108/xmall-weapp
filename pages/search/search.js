@@ -1,12 +1,18 @@
 // pages/search/search.js
 import Toast from '../../lib/vant-weapp/toast/toast';
-
+import { queryProductList } from '../api/api.js'
+import api from '../api/request.js'
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    channel:'',
+    page: 1,
+    pageSize: 20, //根据后台每页的数据设定
+    hasMoreData: '', //是否有更多数据文字
+    productList: [],
     value: "",
     searchStatus: false,
     filters: [
@@ -56,61 +62,6 @@ Page({
         sortOrder: 5,
         title: "咖啡"
       }
-    ],
-    result: [
-      {
-        id: 1,
-        relateId: 0,
-        title: "Smartisan T恤 薛定谔",
-        description: "风格简洁、舒适服帖",
-        price: 149.00,
-        type: 0,
-        picUrl: "https://resource.smartisan.com/resource/22f9e824c1cf7e8fad3d432ee494b932.png"
-      },
-      {
-        id: 2,
-        relateId: 0,
-        title: "记事本",
-        description: "优质米色纸、不洇不透",
-        price: 49.00,
-        type: 0,
-        picUrl: "https://resource.smartisan.com/resource/4a38a3678f151ec9c022f5f676c2b7da.jpg"
-      }, {
-        id: 3,
-        relateId: 0,
-        title: "坚果砖式蓝牙小音箱",
-        description: "一款设计出色、音质出众的随身音箱",
-        price: 149.00,
-        type: 0,
-        picUrl: "https://resource.smartisan.com/resource/c44f0ab4da5591fc3d0f82b7ac0f4f65.jpg"
-      },
-      {
-        id: 4,
-        relateId: 0,
-        title: "坚果彩虹数据线",
-        description: "七彩配色随机发货，为生活增添一份小小惊喜",
-        price: 19.00,
-        type: 0,
-        picUrl: "https://resource.smartisan.com/resource/82aab62886740f165a3631ce6cffe895.jpg"
-      },
-      {
-        id: 5,
-        relateId: 0,
-        title: "明信片",
-        description: "优质卡纸、包装精致、色彩饱满",
-        price: 9.90,
-        type: 0,
-        picUrl: "https://resource.smartisan.com/resource/5ff83a138b1186b0cdf2c76fee2b6e44.jpg"
-      },
-      {
-        id: 6,
-        relateId: 0,
-        title: "任天堂发售红白机",
-        description: "100% 美国 SUPIMA 棉、舒适拉绒质地",
-        price: 149.00,
-        type: 0,
-        picUrl: "https://resource.smartisan.com/resource/804edf579887b3e1fae4e20a379be5b5.png"
-      }
     ]
   },
 
@@ -121,6 +72,12 @@ Page({
     wx.setNavigationBarTitle({
       title: '搜索',
     })
+    if(options!=null){
+      var channel = JSON.parse(options.channel);
+      this.setData({
+        channel: channel
+      })
+    }
   },
 
   /**
@@ -183,6 +140,7 @@ Page({
       duration: 0
     });
     let that = this;
+    this.queryProductList();
     setTimeout(function () {
       Toast.clear();
       that.setData({
@@ -237,6 +195,7 @@ Page({
       value: data,
       searchStatus: true
     })
+    this.queryProductList();
   },
   onFilterChange: function (e) {
     let price = e.detail.checkedValues[1];
@@ -267,12 +226,43 @@ Page({
     }
   },
   handleClick: function (e) {
-    let id = e.currentTarget.dataset.value.id;
+    let product = e.currentTarget.dataset.value;
     wx.navigateTo({
-      url: '/pages/product/product?id=' + id
+      url: '/pages/product/product?product=' + product
     });
   },
   scrollListen: function (e) {
+    this.queryProductList();
     console.log("滑到底部啦 该加载下一页数据啦")
-  }
+  },
+  queryProductList: function (e) {
+    var that=this;
+    //调用接口
+    api.get(queryProductList, {
+      code: that.data.channel.code,
+      size: 20,
+      current: that.data.page,
+      keyword: this.data.value
+    }).then(res => {
+      //成功时回调函数
+      var that = this;
+      console.log(res);
+      var productList = res.data;
+      if (res.data.length < that.data.pageSize) {
+        that.setData({
+          productList: that.data.productList.concat(res.data),
+          hasMoreData: false
+        })
+      } else {
+        that.setData({
+          productList: that.data.productList.concat(res.data),
+          hasMoreData: true,
+          page: that.data.page + 1
+        })
+      }
+    }).catch(err => {
+      //失败时回调函数
+      console.log(err)
+    })
+  },
 })

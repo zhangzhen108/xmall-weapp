@@ -23,13 +23,15 @@
     "pages/pay-result/pay-result",
     "pages/ucenter/express/express",
     "pages/ucenter/vip/vip",
-    "pages/ucenter/setting/setting"
+    "pages/ucenter/setting/setting",
+    "pages/channel/channel"
   ],
   "window": {
     "navigationBarBackgroundColor": "#1d1d1d",
     "navigationBarTitleText": "XMall",
     "navigationBarTextStyle": "white",
-    "backgroundColor": "#f4f4f4"
+    "backgroundColor": "#f4f4f4",
+    "enablePullDownRefresh": true
   },
   "tabBar": {
     "color": "#9a9a9a",

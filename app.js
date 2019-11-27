@@ -10,6 +10,6 @@ App({
       avatarUrl: "/assets/avatar.png"
     },
     token: "",
-    host: 'http://localhost:8082/',
+    host: 'http://192.168.1.108:8082/',
   }
 })

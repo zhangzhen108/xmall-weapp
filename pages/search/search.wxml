@@ -27,10 +27,16 @@
 </view>
 
 <!-- 搜索结果 -->
-<scroll-view bindscrolltolower="scrollListen" scroll-y enable-flex class="result" wx:if="{{ result.length>0 && searchStatus }}">
+<scroll-view bindscrolltolower="scrollListen" scroll-y enable-flex class="result" wx:if="{{ productList.length>0 && searchStatus }}">
   <view style="height:208rpx;width:750rpx"></view>
-  <view class="item" wx:for="{{result}}" wx:for-item="item" wx:key="{{item.id}}" data-value="{{item}}" bindtap="handleClick">
+  <view class="item" wx:for="{{productList}}" wx:for-item="item" wx:key="{{item.id}}" data-value="{{item}}" bindtap="handleClick">
     <product-big data="{{item}}" border="false"></product-big>
+  </view>
+    <view wx:if="{{hasMoreData}}" class="more">
+    <text class="title">正在加载中...</text>
+  </view>
+  <view wx:else class="more">
+    <text class="title">—— 更多内容,敬请期待 ——</text>
   </view>
 </scroll-view>
 
@@ -40,6 +46,4 @@
     <text class="text">您寻找的商品还未上架</text>
   </view>
 </view>
-
-
 <van-toast id="van-toast" />

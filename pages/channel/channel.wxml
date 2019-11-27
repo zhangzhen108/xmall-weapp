@@ -1,5 +1,13 @@
 <!--index.wxml-->
 <view>
+  <!-- 搜索框 -->
+  <view class="search-bar">
+    <view class="search" bindtap="toSearch">
+      <image class="search-logo" src="/assets/search.png" mode="aspectFit"></image>
+      搜索喜欢的商品
+    </view>
+  </view>
+
   <view>
 
     <!-- 轮播图 -->
@@ -27,7 +35,7 @@
         <image class="arrow" src="/assets/rightArrow.png"></image>
       </view>
       <view class="pick-wrap">
-        <view class="item" wx:for="{{productList}}" wx:for-item="item" data-value="{{item}}" bindtap="handleClickProduct">
+        <view class="item" wx:for="{{productList}}" wx:for-item="item" data-value="{{item}}" bindtap="handleClick">
           <product-big data="{{item}}" border="false"></product-big>
         </view>
       </view>
@@ -39,6 +47,4 @@
   <view wx:else class="more">
     <text class="title">—— 更多内容,敬请期待 ——</text>
   </view>
-
-
 </view>
