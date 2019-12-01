@@ -102,6 +102,14 @@ Page({
         url: '/pages/productList/productList?category=' + category + '&channel=' + channel
       });
   },
+  openProductDetail: function (e) {
+    let data = e.currentTarget.dataset.value;
+    var product = JSON.stringify(data);
+    // 商品
+    wx.navigateTo({
+      url: '/pages/product/product?product=' + product
+    });
+  },
   clickHeader: function (e) {
     let data = e.currentTarget.dataset.value;
     wx.navigateTo({

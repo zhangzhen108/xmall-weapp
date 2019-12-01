@@ -35,7 +35,7 @@
         <image class="arrow" src="/assets/rightArrow.png"></image>
       </view>
       <view class="pick-wrap">
-        <view class="item" wx:for="{{productList}}" wx:for-item="item" data-value="{{item}}" bindtap="handleClick">
+        <view class="item" wx:for="{{productList}}" wx:for-item="item" data-value="{{item}}" bindtap="openProductDetail">
           <product-big data="{{item}}" border="false"></product-big>
         </view>
       </view>
