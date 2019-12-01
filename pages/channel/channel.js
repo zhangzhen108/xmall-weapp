@@ -1,5 +1,5 @@
 //index.js
-import { queryProductList } from '../api/api.js'
+import { queryProductList, categoryQueryList } from '../api/api.js'
 import api from '../api/request.js'
 //获取应用实例
 const app = getApp()
@@ -78,26 +78,28 @@ Page({
     if(options!=null){
       var channel = JSON.parse(options.channel);
       wx.setNavigationBarTitle({
-        title: channel.title,
+        title: channel.msg,
       })
       that.setData({
         channel: channel
       })
     }
     this.queryProductList();
+    this.queryCategoryList();
    },
   toSearch: function () {
-    var channel = JSON.stringify(channel)
+    var channel = JSON.stringify(this.data.channel)
     wx.navigateTo({
       url: '/pages/search/search?channel=' + channel
     });
   },
   handleClick: function (e) {
     let data = e.currentTarget.dataset.value;
-    var product = JSON.stringify(data)
+    var category = JSON.stringify(data);
+    var channel = JSON.stringify(this.data.channel);
       // 商品
       wx.navigateTo({
-        url: '/pages/product/product?product=' + product
+        url: '/pages/productList/productList?category=' + category + '&channel=' + channel
       });
   },
   clickHeader: function (e) {
@@ -109,7 +111,7 @@ Page({
   queryProductList: function(e) {
     //调用接口
     api.get(queryProductList,{
-      code:this.data.channel.code,
+      channelCode:this.data.channel.code,
       size:20,
       current: this.data.page,
       keyword: '衣服'
@@ -151,4 +153,21 @@ Page({
       wx.stopPullDownRefresh()
     }, 2000);
   },
+  queryCategoryList: function(){
+    //调用接口
+    api.get(categoryQueryList, {
+      channelId: this.data.channel.id,
+      limitNum: 8
+    }).then(res => {
+      //成功时回调函数
+      console.log(res);
+      var that = this;
+      that.setData({
+        menuList: res.data
+      })
+    }).catch(err => {
+      //失败时回调函数
+      console.log(err)
+    })
+  }
 })

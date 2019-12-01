@@ -1,7 +1,7 @@
 <!--pages/search/search.wxml-->
 <view class="header">
   <van-search value="{{ value }}" placeholder="请输入搜索关键词" show-action shape="round" bind:search="onSearch" bind:cancel="onCancel" bind:clear="onClear" />
-  <wux-filterbar items="{{ filters }}" bind:change="onFilterChange" bind:open="onOpen" wx:if="{{ result.length>0 && searchStatus }}" />
+  <wux-filterbar items="{{ filters }}" bind:change="onFilterChange" bind:open="onOpen" wx:if="{{ productList.length>0 && searchStatus }}" />
 </view>
 
 <!-- 未搜索时标签 -->

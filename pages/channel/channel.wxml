@@ -22,8 +22,8 @@
     <!-- 快捷频道图标 -->
     <view class="menu">
       <view class="item" wx:for="{{menuList}}" wx:for-item="item" wx:key="{{item.id}}" data-value="{{item}}" bindtap="handleClick">
-        <image src="{{item.picUrl}}" background-size="cover" data-value="{{item}}"></image>
-        <text>{{item.title}}</text>
+        <image src="{{item.url}}" background-size="cover" data-value="{{item}}"></image>
+        <text>{{item.name}}</text>
       </view>
     </view>
 

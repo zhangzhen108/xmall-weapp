@@ -162,35 +162,14 @@
   align-items: center;
   justify-content: center;
   width: 225rpx;
-  font-size: 28rpx;
-  color: #fff;
   background: #b4282d;
 }
-
-.add-cart.active {
-  background: #981d22;
+.add-cart .shareButton{
+  background-color:#b4282d;
+    font-size: 28rpx;
+  color: #fff;
+  width:100%
 }
-
-.coupon-pop .title {
-  text-align: center;
-  font-size: 28rpx;
-  color: #555;
-  margin-top: 30rpx;
-  margin-bottom: 30rpx;
-}
-
-.coupon-wrap {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  padding: 0rpx 32rpx 180rpx 32rpx;
-  max-height: 800rpx;
-}
-
-.coupon-wrap .item {
-  margin-bottom: 30rpx;
-}
-
 .wxbtn {
   display: flex;
   align-items: center;

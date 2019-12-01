@@ -52,17 +52,17 @@
 
 .menu {
   display: flex;
-  height: 175rpx;
-  flex-flow: row nowrap;
+  /* height: 175rpx; */
+  flex-flow: wrap;
   align-items: center;
   justify-content: space-between;
   background-color: #fff;
 }
 
 .menu .item {
-  flex: 1;
   display: block;
   padding: 20rpx 0;
+  width:25%;
 }
 
 .menu image {

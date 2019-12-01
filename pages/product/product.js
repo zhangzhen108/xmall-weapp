@@ -1,7 +1,7 @@
 // pages/product/product.js
-let WxParse = require("../../lib/wxParse/wxParse.js");
 import Toast from '../../lib/vant-weapp/toast/toast';
-
+import { buyNow } from '../api/api.js'
+import api from '../api/request.js'
 Page({
 
   /**
@@ -9,37 +9,7 @@ Page({
    */
   data: {
     isLogin: false,
-    product: {
-      id: 0,
-      picUrl: "https://img11.360buyimg.com/n1/s450x450_jfs/t1/62813/33/2131/584186/5d079803E03084b0d/2b4970456b7bf49f.png", // 默认商品图片
-      promotion: 1, // 促销活动 0无 1限时购 2领劵
-      gallery: [{
-          picUrl: "https://img11.360buyimg.com/n1/s450x450_jfs/t1/62813/33/2131/584186/5d079803E03084b0d/2b4970456b7bf49f.png",
-          sortOrder: 1
-        },
-        {
-          picUrl: "https://img10.360buyimg.com/n1/s450x450_jfs/t1/4176/23/3653/281477/5b9a15d4E97e09d00/887e76e6c525324c.jpg",
-          sortOrder: 2
-        },
-        {
-          picUrl: "https://img10.360buyimg.com/n1/s450x450_jfs/t1/5967/33/3617/54427/5b9a15d4Ebe8c2aed/99c9c06b72d356f7.jpg",
-          sortOrder: 3
-        },
-        {
-          picUrl: "https://img10.360buyimg.com/n1/s450x450_jfs/t1/2522/37/3744/128519/5b9a15d4Eb916347a/bef9d7fae9c5d2ae.jpg",
-          sortOrder: 4
-        },
-        {
-          picUrl: "https://img10.360buyimg.com/n1/s450x450_jfs/t1/1508/30/3667/24431/5b9a15d4E61cd63d4/592747ec9cd8ad81.jpg",
-          sortOrder: 5
-        }
-      ], // 轮播图
-      title: "Apple iPhone XS Max (A2104)",
-      description: "A12仿生芯片流畅体验，支持双卡！",
-      defaultPrice: 1.00, // 默认显示价格
-      price: 1.00,
-      originPrice: 9588.00
-    }
+    product: {}
   },
 
   /**
@@ -51,7 +21,7 @@ Page({
       title: '商品详情',
     })
     if (options != null) {
-      var product = JSON.parse(options.product);
+      var product = JSON.parse(decodeURIComponent(options.product));
       that.setData({
         product: product
       })
@@ -88,7 +58,12 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function() {
-
+    wx.showNavigationBarLoading()
+    this.onLoad()
+    setTimeout(() => {
+      wx.hideNavigationBarLoading()
+      wx.stopPullDownRefresh()
+    }, 2000);
   },
 
   /**
@@ -101,101 +76,81 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function() {
-
+  onShareAppMessage: function (options) {
+    var product = encodeURIComponent(JSON.stringify(this.data.product))
+    return {
+      title: this.data.product.name,
+      imageUrl: this.data.product.imgUrl,
+      path: '/pages/product/product?product=' + product
+    }
   },
   openIndexPage: function() {
     wx.switchTab({
       url: '/pages/index/index',
     })
   },
-  openCoupon: function() {
-    this.setData({
-      couponShow: true
-    })
-  },
-  closeCoupon: function() {
-    this.setData({
-      couponShow: false
-    })
-  },
-  openAddress: function() {
-    let that = this;
-    wx.chooseLocation({
-      success: function(res) {
-        if (!res.address) {
-          return;
-        }
-        that.setData({
-          'deliveryAddress.address': res.address
-        })
-      },
-    })
-  },
-  openService: function() {
-    this.setData({
-      serviceShow: true
-    })
-  },
-  closeService: function() {
-    this.setData({
-      serviceShow: false
-    })
-  },
-  openCartPage: function() {
-    wx.switchTab({
-      url: '/pages/cart/cart',
-    })
-  },
-  toComment: function() {
-    wx.navigateTo({
-      url: '/pages/comment/comment?productId' + this.data.product.id,
-    })
-  },
-  toProduct: function(e) {
-    let id = e.currentTarget.dataset.value.id;
-    wx.navigateTo({
-      url: '/pages/product/product?id=' + id
-    })
-  },
-  previewThumb: function(e) {
-    wx.previewImage({
-      current: this.data.product.picUrl,
-      urls: [this.data.product.picUrl]
-    })
-  },
-  showSku: function(e) {
-    this.setData({
-      'sku.show': true
-    })
-  },
-  closeSku: function(e) {
-    this.setData({
-      'sku.show': false
-    })
-  },
   buyNow: function() {
-    if (!this.isAllSelected()) {
-      // 提示
-      this.toChooseTip();
-    } else {
-      // 下单 判断数量
-      let skuComb = this.getSkuComb();
-      if (this.data.sku.count > skuComb.stockNum) {
-        Toast("库存不足，请减少购买数量");
-        return;
-      }
-      // 跳转checkout页面
-      wx.setStorageSync("checkoutProduct", this.data.product);
-      wx.setStorageSync("checkoutProductSku", this.data.sku);
-      wx.navigateTo({
-        url: '/pages/checkout/checkout?from=product',
-      })
-    }
+    this.convertUrl();
   },
-  toVip: function() {
-    wx.navigateTo({
-      url: '/pages/ucenter/vip/vip',
+  convertUrl: function(){
+    api.get(buyNow, {
+      logo: this.data.product.imgUrl,
+      url: this.data.product.url,
+      name: this.data.product.name,
+      id: this.data.product.thirdId,
+      channelCode: this.data.product.channelDTO.code,
+    }).then(res => {
+      //成功时回调函数
+      var that = this;
+      console.log(res);
+      var jump=res.data;
+      if (jump.jumType===1){
+        this.copy(jump);
+      }else{
+        this.jump(jump);
+      }
+    }).catch(err => {
+      //失败时回调函数
+      console.log(err)
     })
   },
+  // 跳转小程序
+  jump: function(jump){
+    wx.navigateToMiniProgram({
+      appId: jump.appid,
+      path: jump.path,
+      success(res) {
+        // 打开成功
+      }
+    })
+  },
+  // 立即购买复制弹出
+  copy: function(jump){
+    wx.setClipboardData({
+      data: jump.data,
+      success: function (res) {
+        wx.hideToast();
+        wx.showModal({
+          title: '复制成功',
+          content: '已自动复制淘口令,请打开手机淘宝购买',
+          showCancel: false
+        });
+      }
+    })
+  },
+  copyProductName: function(){
+    wx.setClipboardData({
+      data: this.data.product.name,
+      success: function (res) {
+        wx.showToast({
+          title: '复制成功',
+        });
+      }
+    })
+  },
+  openOpinionPage: function(){
+    wx.navigateTo({
+      url: '/pages/opinion/opinion?productId=' + this.data.product.thirdId
+    });
+  }
 })

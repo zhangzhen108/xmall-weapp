@@ -1,12 +1,10 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/opinion/opinion",
     "pages/catalog/catalog",
-    "pages/cart/cart",
     "pages/checkout/checkout",
     "pages/search/search",
-    "pages/promotion/promotion",
-    "pages/category/category",
     "pages/product/product",
     "pages/comment/comment",
     "pages/auth/tologin/tologin",
@@ -28,7 +26,7 @@
   ],
   "window": {
     "navigationBarBackgroundColor": "#1d1d1d",
-    "navigationBarTitleText": "XMall",
+    "navigationBarTitleText": "亰拼多",
     "navigationBarTextStyle": "white",
     "backgroundColor": "#f4f4f4",
     "enablePullDownRefresh": true
@@ -46,18 +44,6 @@
         "selectedIconPath": "assets/indexSelected.png"
       },
       {
-        "pagePath": "pages/catalog/catalog",
-        "text": "分类",
-        "iconPath": "assets/all.png",
-        "selectedIconPath": "assets/allSelected.png"
-      },
-      {
-        "pagePath": "pages/cart/cart",
-        "text": "购物车",
-        "iconPath": "assets/cart.png",
-        "selectedIconPath": "assets/cartSelected.png"
-      },
-      {
         "pagePath": "pages/ucenter/index/index",
         "text": "我的",
         "iconPath": "assets/me.png",
@@ -66,8 +52,10 @@
     ]
   },
   "usingComponents": {
-    "van-button": "lib/vant-weapp/button/index",
     "van-dialog": "lib/vant-weapp/dialog/index",
+    "van-radio": "lib/vant-weapp/radio/index",
+    "van-radio-group": "lib/vant-weapp/radio-group/index",
+    "van-button": "lib/vant-weapp/button/index",
     "van-field": "lib/vant-weapp/field/index",
     "van-tab": "lib/vant-weapp/tab/index",
     "van-tabs": "lib/vant-weapp/tabs/index",
@@ -93,5 +81,8 @@
     "i-avatar": "lib/iview-weapp/avatar/index",
     "i-rate": "lib/iview-weapp/rate/index"
   },
-  "sitemapLocation": "sitemap.json"
+  "sitemapLocation": "sitemap.json",
+  "navigateToMiniProgramAppIdList": [
+    "wx32540bd863b27570"
+  ]
 }

@@ -1,5 +1,5 @@
 //index.js
-import { queryProductList } from '../api/api.js'
+import { queryProductList, channelQueryList } from '../api/api.js'
 import api from '../api/request.js'
 //获取应用实例
 const app = getApp()
@@ -34,40 +34,11 @@ Page({
       title: "",
       type: 0,
       picUrl: "https://resource.smartisan.com/resource/B/BS2000WAP.png"
-    }],
-    menuList: [{
-      id: 1,
-      title: "淘宝",
-      code: "product-tb",
-      picUrl: "../../image/tb.png"
-    },
-    {
-      id: 2,
-      title: "京东",
-      code: "product-jd",
-      picUrl: "../../image/jd.png"
-    },
-    {
-      id: 3,
-      title: "拼多多",
-      code: "product-pdd",
-      picUrl: "../../image/pdd.png"
-    },
-    {
-      id: 4,
-      title: "蘑菇街",
-      code: "product-mgj",
-      picUrl: "../../image/mgj.png"
-    },
-    {
-      id: 5,
-      title: "更多",
-      picUrl: "https://i.loli.net/2019/06/23/5d0f7e938cbee56873.png"
-    }
-    ]
+    }]
   },
   onLoad: function () {
     this.queryProductList();
+    this.channelQueryList();
    },
   toSearch: function () {
     wx.navigateTo({
@@ -84,22 +55,16 @@ Page({
   },
   handleClickProduct: function (e) {
     let data = e.currentTarget.dataset.value;
-    var product = JSON.stringify(data)
+    var product = encodeURIComponent(JSON.stringify(data))
     // 商品
     wx.navigateTo({
       url: '/pages/product/product?product=' + product
     });
   },
-  clickHeader: function (e) {
-    let data = e.currentTarget.dataset.value;
-    wx.navigateTo({
-      url: '/pages/promotion/promotion?id=' + data.relateId
-    });
-  },
   queryProductList: function (e) {
     //调用接口
     api.get(queryProductList, {
-      code: "product-pdd",
+      channelCode: "product-pdd",
       size: 20,
       current: this.data.page,
       keyword: '衣服'
@@ -141,4 +106,20 @@ Page({
       wx.stopPullDownRefresh()
     }, 2000);
   },
+  channelQueryList: function(){
+    //调用接口
+    api.get(channelQueryList, {
+      limitNum: 5
+    }).then(res => {
+      //成功时回调函数
+      var that = this;
+      console.log(res);
+      that.setData({
+        menuList: res.data
+      })
+    }).catch(err => {
+      //失败时回调函数
+      console.log(err)
+    })
+  }
 })

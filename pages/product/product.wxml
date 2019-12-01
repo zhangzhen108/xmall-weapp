@@ -9,19 +9,19 @@
 <view class="info-wrap">
   <view class="info">
     <view class="left">
-      <view class="title wux-ellipsis--l2">{{product.name}}</view>
+      <view class="title wux-ellipsis--l2" bindlongtap='copyProductName'>{{product.name}}</view>
       <view class="desc wux-ellipsis--l2" ><text class="yhq">优惠券￥{{product.couponAmount}}</text></view>
       <view class="price">￥{{product.price}}
         <text class="price-origin">￥{{product.originalPrice}}</text>
       </view>
       <view class="tags" >
-        <view  class="tag" hover-class="active">{{product.sourceMsg}}
+        <view  class="tag" hover-class="active">{{product.channelDTO.msg}}
         </view>
       </view>
     </view>
     <view class="right" bindtap="toComment">
       <view class="comment">
-        <text class="txt">查看详情</text>
+        <text class="txt" bindtap="buyNow">查看详情</text>
       </view>
       <van-icon class="arrow-icon" color="rgb(170, 170, 170)" name="arrow" size="18px" />
     </view>
@@ -41,11 +41,11 @@
       <van-icon name="service-o" color="#777" size="20px" />
     </button>
   </view>
-  <view class="b-wrap cart" hover-class="active" bindtap="openCartPage">
-    <van-icon custom-class="icon-info" name="shopping-cart-o" info="{{cartList.length>0 ? cartList.length:''}}" color="#777" size="20px" />
+  <view class="b-wrap cart" hover-class="active" bindtap="openOpinionPage">
+    <van-icon custom-class="icon-info" name="edit" info="{{cartList.length>0 ? cartList.length:''}}" color="#777" size="20px" />
   </view>
   <view class="buy" hover-class="active" bindtap="buyNow">立即购买</view>
-  <view class="add-cart" hover-class="active" bindtap="addToCart">加入购物车</view>
+  <view class="add-cart" hover-class="active" bindtap="addToCart"><button class="shareButton" open-type="share">分享</button></view>
 </view>
 
 <van-toast id="van-toast" />

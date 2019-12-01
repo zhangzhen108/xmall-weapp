@@ -1,0 +1,6 @@
+/* pages/opinion/opinion.wxss */
+.submitButton{
+  background-color: #b4282d;
+  margin: 10px;
+  
+}
